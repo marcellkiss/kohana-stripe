@@ -10,7 +10,6 @@
 
 class Kohana_Stripe {
 
-	public static $status = NULL;
 	private static $secret_key = NULL;
 	public static $publishable_key = NULL;
 
@@ -22,10 +21,9 @@ class Kohana_Stripe {
 
 		require_once Kohana::find_file('vendor', 'stripe-php/lib/Stripe', 'php');
 
-		$config = Kohana::config('stripe');
-		self::$status = $config['status'];
-		self::$secret_key = $config[self::$status]['secret_key'];
-		self::$publishable_key = $config[self::$status]['publishable_key'];
+		$config = Kohana::$config->load('payment');
+		self::$secret_key = $config['secret_key'];
+		self::$publishable_key = $config['public_key'];
 
 		Stripe::setApiKey(self::$secret_key);
 	}
